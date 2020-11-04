@@ -1,5 +1,5 @@
 ---
-title: "Module 1: Launch Spark Application with spark-submit"
+title: "Deploy Spark-submit Job"
 weight: 10
 draft: false
 ---
@@ -21,6 +21,7 @@ kubectl create clusterrolebinding spark-role --clusterrole='edit' --serviceaccou
 ```
 
 #### Create pod template for Spark Drivers
+```
 cat <<EoF > ~/environment/spark_application/spark-driver-pod.yaml
 apiVersion: v1
 kind: Pod
@@ -40,8 +41,10 @@ spec:
             values:
             - OnDemand
 EoF
+```
 
 #### Create pod template for Spark Executors
+```
 cat <<EoF > ~/environment/spark_application/spark-executor-pod.yaml
 apiVersion: v1
 kind: Pod
@@ -61,6 +64,7 @@ spec:
             values:
             - Ec2Spot
 EoF
+```
 
 #### Launch Spark Application
 Download [Spark](https://spark.apache.org/downloads.html) 

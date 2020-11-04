@@ -1,5 +1,5 @@
 ---
-title: "Module 2: Deploy Spark Operator to Launch Spark Application"
+title: "Deploy Job with Spark Operator"
 weight: 20
 draft: false
 ---
@@ -89,8 +89,9 @@ kubectl describe SparkApplication spark-pi
 Review Spark application logs:
 ```
 kubectl logs spark-pi-driver
+```
 
-Accessing Driver UI
+Accessing Driver UI:
 ```
 kubectl port-forward spark-pi-driver 4040:4040
 ```

@@ -1,16 +1,12 @@
 ---
 title: "Spark on Amazon EKS"
-chapter: true
 weight: 430
-pre: '<i class="fa fa-film" aria-hidden="true"></i> '
 draft: false
 tags:
   - advanced
   - spark
   - spark-operator
 ---
-
-# Spark on Amazon EKS
 
 Apache Spark is an open-source, distributed processing system for large-scale computing tasks such as big data processing, machine learning, real-time streaming, and ETL workloads. The Kubernetes ability to handle workloads at scale, and complex scheduling requirements makes it a highly desireable method of orchestrating Spark jobs, in comparison to YARN. 
 
@@ -22,8 +18,10 @@ Using Amazon EKS for running Spark jobs provides benefits for the following type
 * Focus on application development without worrying about sizing and configuring clusters. Amazon EKS is fully managed and simplifies the maintenance of clusters including Kubernetes version upgrades and security patches.
 * Spiky workloads with fast autoscaling response time. Amazon EKS supports Kubernetes Cluster Autoscaler and can provides additional compute capacity in minutes.
 
-- AWS Blogs on Spark:
-[Deploying Spark jobs on Amazon EKS](https://aws.amazon.com/blogs/opensource/deploying-spark-jobs-on-amazon-eks/)
-[Optimizing Spark Performance on Kubernetes](https://aws.amazon.com/blogs/containers/optimizing-spark-performance-on-kubernetes/)
-
 In this chapter, we will walk through the process of deploying a spark application on EKS leveraging spark-submit and Spark operator capabilities.
+
+### AWS Blogs on Spark
+
+[Deploying Spark jobs on Amazon EKS](https://aws.amazon.com/blogs/opensource/deploying-spark-jobs-on-amazon-eks/)
+
+[Optimizing Spark Performance on Kubernetes](https://aws.amazon.com/blogs/containers/optimizing-spark-performance-on-kubernetes/)
