@@ -71,20 +71,29 @@ Download [Spark](https://spark.apache.org/downloads.html)
 
 Download hadoop-aws JAR and aws-java-sdk-bundle jars from [Maven](https://mvnrepository.com/) repository. Copy them under the jars folder of the spark download.
 
+Store Environment Variables and Create S3 Bucket:
+```
+export S3_LOGS_BUCKET=spark-logs-$(cat /dev/urandom | LC_ALL=C tr -dc "[:alpha:]" | tr '[:upper:]' '[:lower:]' | head -c 32)
+aws s3 mb s3://$S3_LOGS_BUCKET
+
+kubectl cluster-info
+export KUBEAPI=<CONTROL PLANE ENDPOINT>
+```
+
 Deploy the Spark application:
 ```
 bin/spark-submit \
---master <<MASTER URL>> \
+--master $KUBEAPI \
 --deploy-mode cluster \
 --name 'Job Name' \
---conf spark.eventLog.dir=<<SPARK LOG S3 FOLDER>> \
+--conf spark.eventLog.dir=$S3_LOGS_BUCKET \
 --conf spark.eventLog.enabled=true \
 --conf spark.history.fs.inProgressOptimization.enabled=true \
 --conf spark.history.fs.update.interval=5s \
 --conf spark.kubernetes.container.image=<<Spark Docker Image>> \
 --conf spark.kubernetes.container.image.pullPolicy=IfNotAvailable \
---conf spark.kubernetes.driver.podTemplateFile='../driver_pod_template.yml' \
---conf spark.kubernetes.executor.podTemplateFile='../executor_pod_template.yml' \
+--conf spark.kubernetes.driver.podTemplateFile='~/environment/spark_application/driver_pod_template.yaml' \
+--conf spark.kubernetes.executor.podTemplateFile='~/environment/spark_application/executor_pod_template.yaml' \
 --conf spark.kubernetes.authenticate.driver.serviceAccountName=spark \
 --conf spark.dynamicAllocation.enabled=true \
 --conf spark.dynamicAllocation.shuffleTracking.enabled=true \
@@ -101,8 +110,8 @@ bin/spark-submit \
 --conf spark.hadoop.fs.s3a.impl=org.apache.hadoop.fs.s3a.S3AFileSystem \
 --conf spark.hadoop.fs.s3a.connection.ssl.enabled=false \
 --conf spark.hadoop.fs.s3a.fast.upload=true \
-s3a://<<SPARK LOG S3 FOLDER>>/script.py \
-s3a://<<SPARK LOG S3 FOLDER>>output
+s3a://$S3_LOGS_BUCKET/script.py \
+s3a://$S3_LOGS_BUCKEToutput
 ```
 
 #### Check Status of Spark Application
